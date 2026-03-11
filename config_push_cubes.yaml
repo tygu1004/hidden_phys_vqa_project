@@ -1,0 +1,28 @@
+robot:
+  type: "Franka"
+  tip_offset: [0.0, 0.0, 0.15]
+  ik_params:
+    lambda_val: 0.01
+  step_size: 0.1
+  noise_std: 0.0001
+
+env:
+  num_envs: 4
+  fps: 15
+  spacing: 15.0
+  obj_names: ["cube01", "cube02"]
+  stabilize_steps: 10
+  hold_steps: 5
+  eps: 0.01
+  episode_length_s: 13
+
+task:
+  id: "Push_Two_Cubes"
+  sequence: ["push"]
+  physical_property: "mass"
+
+data:
+  repo_id: "mlcf-robot/push_cubes_vqa_dataset"
+  num_episodes: 32
+  video_keys: ["cam01"]
+  vcodec: "h264_nvenc"
