@@ -35,30 +35,62 @@ class ObservationCfg:
     class CamsCfg(ObservationGroupCfg):
         """Camera observations."""
 
-        cam01 = ObservationTermCfg(
+        cam_front_narrow = ObservationTermCfg(
             func=mdp.observations.image,
             params={
-                "sensor_cfg": SceneEntityCfg("cam01"),
+                "sensor_cfg": SceneEntityCfg("cam_front_narrow"),
                 "data_type": "rgb",
                 "normalize": False,
             },
         )
-        # cam02 = ObservationTermCfg(
-        #     func=mdp.observations.image,
-        #     params={
-        #         "sensor_cfg": SceneEntityCfg("cam02"),
-        #         "data_type": "rgb",
-        #         "normalize": False,
-        #     },
-        # )
-        # cam03 = ObservationTermCfg(
-        #     func=mdp.observations.image,
-        #     params={
-        #         "sensor_cfg": SceneEntityCfg("cam03"),
-        #         "data_type": "rgb",
-        #         "normalize": False,
-        #     },
-        # )
+        cam_front_wide = ObservationTermCfg(
+            func=mdp.observations.image,
+            params={
+                "sensor_cfg": SceneEntityCfg("cam_front_wide"),
+                "data_type": "rgb",
+                "normalize": False,
+            },
+        )
+        cam_front_left_narrow = ObservationTermCfg(
+            func=mdp.observations.image,
+            params={
+                "sensor_cfg": SceneEntityCfg("cam_front_left_narrow"),
+                "data_type": "rgb",
+                "normalize": False,
+            },
+        )
+        cam_front_right_narrow = ObservationTermCfg(
+            func=mdp.observations.image,
+            params={
+                "sensor_cfg": SceneEntityCfg("cam_front_right_narrow"),
+                "data_type": "rgb",
+                "normalize": False,
+            },
+        )
+        cam_back_narrow = ObservationTermCfg(
+            func=mdp.observations.image,
+            params={
+                "sensor_cfg": SceneEntityCfg("cam_back_narrow"),
+                "data_type": "rgb",
+                "normalize": False,
+            },
+        )
+        cam_back_left_narrow = ObservationTermCfg(
+            func=mdp.observations.image,
+            params={
+                "sensor_cfg": SceneEntityCfg("cam_back_left_narrow"),
+                "data_type": "rgb",
+                "normalize": False,
+            },
+        )
+        cam_back_right_narrow = ObservationTermCfg(
+            func=mdp.observations.image,
+            params={
+                "sensor_cfg": SceneEntityCfg("cam_back_right_narrow"),
+                "data_type": "rgb",
+                "normalize": False,
+            },
+        )
 
         def __post_init__(self) -> None:
             self.enable_corruption = False

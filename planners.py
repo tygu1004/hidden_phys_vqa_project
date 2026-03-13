@@ -73,7 +73,9 @@ class TaskPlanner:
                 under_obj_cfg=self.obj_cfgs[1],
             )
         elif phase_name == "drop":
-            return get_dropping_ee_goals(env=self.env, obj_cfgs=self.obj_cfgs)
+            return get_dropping_ee_goals(
+                env=self.env, obj_cfgs=self.obj_cfgs, height=0.3
+            )
         else:
             raise ValueError(f"Unknown phase: {phase_name}")
 
@@ -101,7 +103,7 @@ class TaskPlanner:
         phase_name = self.phase_names[phase_idx]
 
         # Shuffle objects to randomize roles (e.g., which object is upper/under or push order)
-        random.shuffle(self.obj_cfgs)
+        self.obj_cfgs = random.sample(self.obj_cfgs, len(self.obj_cfgs))
 
         new_goals = self._compute_goals(phase_name)
         self.phase_goal_buffers[phase_idx][:, env_idxs] = new_goals[:, env_idxs]

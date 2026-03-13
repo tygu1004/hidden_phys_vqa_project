@@ -69,7 +69,12 @@ class VQADataCollector:
                 )
                 logging.info(f"Saved video for env index {env_idx} at {video_path}")
                 metadata = self._make_metadata_per_episode(
-                    video_path, env, obj_cfgs, self.physics_property_type, env_idx
+                    video_key,
+                    video_path,
+                    env,
+                    obj_cfgs,
+                    self.physics_property_type,
+                    env_idx,
                 )
                 with open(self.metadata_path, "a", encoding="utf-8") as f:
                     f.write(json.dumps(metadata, ensure_ascii=False) + "\n")
@@ -79,6 +84,7 @@ class VQADataCollector:
 
     def _make_metadata_per_episode(
         self,
+        video_key: str,
         video_path: str,
         env: ManagerBasedRLEnv,
         obj_cfgs: list[SceneEntityCfg],
@@ -118,10 +124,20 @@ class VQADataCollector:
                 restitution = meterial_properties[env_idx, :, 2]
                 restitutions.append(restitution.item())
 
-            if restitutions[0] < restitutions[1]:
-                answer = "Left."
+            if "front" in video_key:
+                if restitutions[0] < restitutions[1]:
+                    answer = "Left."
+                else:
+                    answer = "Right."
+            elif "back" in video_key:
+                if restitutions[0] < restitutions[1]:
+                    answer = "Left."
+                else:
+                    answer = "Right."
             else:
-                answer = "Right."
+                raise ValueError(
+                    f"video_key should contain 'front' or 'back', but got: {video_key}"
+                )
 
             return {
                 "file_name": video_path,

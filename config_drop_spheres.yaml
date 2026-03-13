@@ -4,7 +4,7 @@ robot:
   ik_params:
     lambda_val: 0.01
   step_size: 0.05
-  noise_std: 0.0001
+  noise_std: 0.00001
 
 env:
   num_envs: 4
@@ -13,8 +13,8 @@ env:
   obj_names: ["sphere01", "sphere02"]
   stabilize_steps: 10
   hold_steps: 5
-  eps: 0.01
-  episode_length_s: 13
+  eps: 0.015
+  episode_length_s: 10
 
 task:
   id: "Drop_Two_Spheres"
@@ -22,7 +22,16 @@ task:
   physical_property: "restitution"
 
 data:
-  repo_id: "mlcf-robot/hidden-phys-vqa-dataset"
-  num_episodes: 32
-  video_keys: ["cam01"]
+  repo_id: "mlcf-robot/drop_spheres_vqa_dataset"
+  num_episodes: 8
+  video_keys:
+    [
+      "cam_front_narrow",
+      "cam_front_wide",
+      "cam_front_left_narrow",
+      "cam_front_right_narrow",
+      "cam_back_narrow",
+      "cam_back_left_narrow",
+      "cam_back_right_narrow",
+    ]
   vcodec: "h264_nvenc"

@@ -10,19 +10,90 @@ from isaaclab_assets import FRANKA_ROBOTIQ_GRIPPER_CFG
 
 @configclass
 class TableSceneCfg(InteractiveSceneCfg):
-    ground = AssetBaseCfg(
+    groundplane = AssetBaseCfg(
         prim_path="/World/defaultGroundPlane",
         spawn=sim_utils.GroundPlaneCfg(),
         init_state=AssetBaseCfg.InitialStateCfg(pos=(0.0, 0.0, -0.5)),
     )
     sphere_light = AssetBaseCfg(
-        prim_path="/World/SphereLight",
-        spawn=sim_utils.SphereLightCfg(intensity=5000),
-        init_state=AssetBaseCfg.InitialStateCfg(pos=(0.0, -0.6, 0.7)),
+        prim_path="{ENV_REGEX_NS}/SphereLight",
+        spawn=sim_utils.SphereLightCfg(intensity=30000),
+        init_state=AssetBaseCfg.InitialStateCfg(pos=(0.0, 0.0, 2.0)),
     )
-    dome_light = AssetBaseCfg(
-        prim_path="{ENV_REGEX_NS}/DomeLight",
-        spawn=sim_utils.DomeLightCfg(color=(1.0, 1.0, 1.0), intensity=1000.0),
+    floor = RigidObjectCfg(
+        prim_path="{ENV_REGEX_NS}/Floor",
+        spawn=sim_utils.CuboidCfg(
+            size=(6.0, 6.0, 0.01),
+            rigid_props=sim_utils.RigidBodyPropertiesCfg(
+                disable_gravity=True,
+                kinematic_enabled=True,
+            ),
+            collision_props=sim_utils.CollisionPropertiesCfg(),
+            visual_material=sim_utils.PreviewSurfaceCfg(
+                diffuse_color=(0.18, 0.18, 0.18)
+            ),
+        ),
+        init_state=RigidObjectCfg.InitialStateCfg(pos=(0.0, 0.0, -0.495)),
+    )
+    wall_0 = RigidObjectCfg(
+        prim_path="{ENV_REGEX_NS}/Wall0",
+        spawn=sim_utils.CuboidCfg(
+            size=(0.1, 6.0, 3.0),
+            rigid_props=sim_utils.RigidBodyPropertiesCfg(
+                disable_gravity=True,
+                kinematic_enabled=True,
+            ),
+            collision_props=sim_utils.CollisionPropertiesCfg(),
+            visual_material=sim_utils.PreviewSurfaceCfg(
+                diffuse_color=(0.18, 0.18, 0.18)
+            ),
+        ),
+        init_state=RigidObjectCfg.InitialStateCfg(pos=(3.0, 0.0, 1.0)),
+    )
+    wall_1 = RigidObjectCfg(
+        prim_path="{ENV_REGEX_NS}/Wall1",
+        spawn=sim_utils.CuboidCfg(
+            size=(6.0, 0.1, 3.0),
+            rigid_props=sim_utils.RigidBodyPropertiesCfg(
+                disable_gravity=True,
+                kinematic_enabled=True,
+            ),
+            collision_props=sim_utils.CollisionPropertiesCfg(),
+            visual_material=sim_utils.PreviewSurfaceCfg(
+                diffuse_color=(0.18, 0.18, 0.18)
+            ),
+        ),
+        init_state=RigidObjectCfg.InitialStateCfg(pos=(0.0, 3.0, 1.0)),
+    )
+    wall_2 = RigidObjectCfg(
+        prim_path="{ENV_REGEX_NS}/Wall2",
+        spawn=sim_utils.CuboidCfg(
+            size=(0.1, 6.0, 3.0),
+            rigid_props=sim_utils.RigidBodyPropertiesCfg(
+                disable_gravity=True,
+                kinematic_enabled=True,
+            ),
+            collision_props=sim_utils.CollisionPropertiesCfg(),
+            visual_material=sim_utils.PreviewSurfaceCfg(
+                diffuse_color=(0.18, 0.18, 0.18)
+            ),
+        ),
+        init_state=RigidObjectCfg.InitialStateCfg(pos=(-3.0, 0.0, 1.0)),
+    )
+    wall_3 = RigidObjectCfg(
+        prim_path="{ENV_REGEX_NS}/Wall3",
+        spawn=sim_utils.CuboidCfg(
+            size=(6.0, 0.1, 3.0),
+            rigid_props=sim_utils.RigidBodyPropertiesCfg(
+                disable_gravity=True,
+                kinematic_enabled=True,
+            ),
+            collision_props=sim_utils.CollisionPropertiesCfg(),
+            visual_material=sim_utils.PreviewSurfaceCfg(
+                diffuse_color=(0.18, 0.18, 0.18)
+            ),
+        ),
+        init_state=RigidObjectCfg.InitialStateCfg(pos=(0.0, -3.0, 1.0)),
     )
     table_top = RigidObjectCfg(
         prim_path="{ENV_REGEX_NS}/TableTop",
@@ -32,8 +103,9 @@ class TableSceneCfg(InteractiveSceneCfg):
             physics_material=sim_utils.RigidBodyMaterialCfg(
                 static_friction=0.3,
                 dynamic_friction=0.2,
-                restitution=0.5,
-                friction_combine_mode="average",
+                restitution=0.3,
+                restitution_combine_mode="max",
+                friction_combine_mode="min",
             ),
             collision_props=sim_utils.CollisionPropertiesCfg(),
             visual_material=sim_utils.PreviewSurfaceCfg(
@@ -126,20 +198,108 @@ class FrankaRobotiqGripperTableSceneCfg(TableSceneCfg):
 
 @configclass
 class MultiCamsFrankaRobotiqGripperTableSceneCfg(FrankaRobotiqGripperTableSceneCfg):
-    cam01 = TiledCameraCfg(
-        prim_path="{ENV_REGEX_NS}/cam01",
+    cam_front_narrow = TiledCameraCfg(
+        prim_path="{ENV_REGEX_NS}/cam_front_narrow",
         width=640,
         height=480,
         data_types=["rgb"],
         spawn=sim_utils.PinholeCameraCfg(
-            focal_length=2.1,
-            focus_distance=28.0,
-            horizontal_aperture=5.376,
-            vertical_aperture=3.024,
+            focal_length=24.0,
+            focus_distance=2.0,
         ),
         offset=TiledCameraCfg.OffsetCfg(
-            pos=(0.05, 0.57, 0.66),
-            rot=(-0.393, -0.195, 0.399, 0.805),
+            pos=(2.0, 0.0, 0.3),
+            rot=(0.5, 0.5, 0.5, 0.5),
+            convention="opengl",
+        ),
+    )
+    cam_front_wide = TiledCameraCfg(
+        prim_path="{ENV_REGEX_NS}/cam_front_wide",
+        width=640,
+        height=480,
+        data_types=["rgb"],
+        spawn=sim_utils.PinholeCameraCfg(
+            focal_length=12.0,
+            focus_distance=1.0,
+        ),
+        offset=TiledCameraCfg.OffsetCfg(
+            pos=(1.0, 0.0, 0.3),
+            rot=(0.5, 0.5, 0.5, 0.5),
+            convention="opengl",
+        ),
+    )
+    cam_front_left_narrow = TiledCameraCfg(
+        prim_path="{ENV_REGEX_NS}/cam_front_left_narrow",
+        width=640,
+        height=480,
+        data_types=["rgb"],
+        spawn=sim_utils.PinholeCameraCfg(
+            focal_length=24.0,
+            focus_distance=2.0,
+        ),
+        offset=TiledCameraCfg.OffsetCfg(
+            pos=(2.0, -2.0, 0.3),
+            rot=(0.6708, 0.6708, 0.2236, 0.2236),
+            convention="opengl",
+        ),
+    )
+    cam_front_right_narrow = TiledCameraCfg(
+        prim_path="{ENV_REGEX_NS}/cam_front_right_narrow",
+        width=640,
+        height=480,
+        data_types=["rgb"],
+        spawn=sim_utils.PinholeCameraCfg(
+            focal_length=24.0,
+            focus_distance=2.0,
+        ),
+        offset=TiledCameraCfg.OffsetCfg(
+            pos=(2.0, 2.0, 0.3),
+            rot=(0.2236, 0.2236, 0.6708, 0.6708),
+            convention="opengl",
+        ),
+    )
+    cam_back_narrow = TiledCameraCfg(
+        prim_path="{ENV_REGEX_NS}/cam_back_narrow",
+        width=640,
+        height=480,
+        data_types=["rgb"],
+        spawn=sim_utils.PinholeCameraCfg(
+            focal_length=24.0,
+            focus_distance=2.0,
+        ),
+        offset=TiledCameraCfg.OffsetCfg(
+            pos=(-2.0, 0.0, 0.3),
+            rot=(0.5, 0.5, -0.5, -0.5),
+            convention="opengl",
+        ),
+    )
+    cam_back_left_narrow = TiledCameraCfg(
+        prim_path="{ENV_REGEX_NS}/cam_back_left_narrow",
+        width=640,
+        height=480,
+        data_types=["rgb"],
+        spawn=sim_utils.PinholeCameraCfg(
+            focal_length=24.0,
+            focus_distance=2.0,
+        ),
+        offset=TiledCameraCfg.OffsetCfg(
+            pos=(-2.0, 2.0, 0.3),
+            rot=(-0.3063, -0.3063, 0.6373, 0.6373),
+            convention="opengl",
+        ),
+    )
+    cam_back_right_narrow = TiledCameraCfg(
+        prim_path="{ENV_REGEX_NS}/cam_back_right_narrow",
+        width=640,
+        height=480,
+        data_types=["rgb"],
+        spawn=sim_utils.PinholeCameraCfg(
+            focal_length=24.0,
+            focus_distance=2.0,
+        ),
+        offset=TiledCameraCfg.OffsetCfg(
+            pos=(-2.0, -2.0, 0.3),
+            rot=(0.6373, 0.6373, -0.3063, -0.3063),
             convention="opengl",
         ),
     )
@@ -206,10 +366,11 @@ class SphereMultiCamsFrankaRobotiqGripperTableSceneCfg(
                 disable_gravity=False, linear_damping=0.0, angular_damping=0.0
             ),
             physics_material=sim_utils.RigidBodyMaterialCfg(
-                static_friction=0.8,
-                dynamic_friction=0.6,
+                static_friction=0.9,
+                dynamic_friction=0.8,
                 restitution=1.0,
                 restitution_combine_mode="max",
+                friction_combine_mode="max",
             ),
             visual_material=sim_utils.PreviewSurfaceCfg(
                 diffuse_color=(0.5, 0.3, 0.0), roughness=0.9
@@ -227,10 +388,11 @@ class SphereMultiCamsFrankaRobotiqGripperTableSceneCfg(
                 disable_gravity=False, linear_damping=0.0, angular_damping=0.0
             ),
             physics_material=sim_utils.RigidBodyMaterialCfg(
-                static_friction=0.8,
-                dynamic_friction=0.6,
+                static_friction=0.9,
+                dynamic_friction=0.8,
                 restitution=1.0,
                 restitution_combine_mode="max",
+                friction_combine_mode="max",
             ),
             visual_material=sim_utils.PreviewSurfaceCfg(
                 diffuse_color=(0.5, 0.3, 0.0), roughness=0.9

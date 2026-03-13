@@ -35,30 +35,62 @@ class ObservationCfg:
     class CamsCfg(ObservationGroupCfg):
         """Camera observations."""
 
-        cam01 = ObservationTermCfg(
+        cam_front_narrow = ObservationTermCfg(
             func=mdp.observations.image,
             params={
-                "sensor_cfg": SceneEntityCfg("cam01"),
+                "sensor_cfg": SceneEntityCfg("cam_front_narrow"),
                 "data_type": "rgb",
                 "normalize": False,
             },
         )
-        # cam02 = ObservationTermCfg(
-        #     func=mdp.observations.image,
-        #     params={
-        #         "sensor_cfg": SceneEntityCfg("cam02"),
-        #         "data_type": "rgb",
-        #         "normalize": False,
-        #     },
-        # )
-        # cam03 = ObservationTermCfg(
-        #     func=mdp.observations.image,
-        #     params={
-        #         "sensor_cfg": SceneEntityCfg("cam03"),
-        #         "data_type": "rgb",
-        #         "normalize": False,
-        #     },
-        # )
+        cam_front_wide = ObservationTermCfg(
+            func=mdp.observations.image,
+            params={
+                "sensor_cfg": SceneEntityCfg("cam_front_wide"),
+                "data_type": "rgb",
+                "normalize": False,
+            },
+        )
+        cam_front_left_narrow = ObservationTermCfg(
+            func=mdp.observations.image,
+            params={
+                "sensor_cfg": SceneEntityCfg("cam_front_left_narrow"),
+                "data_type": "rgb",
+                "normalize": False,
+            },
+        )
+        cam_front_right_narrow = ObservationTermCfg(
+            func=mdp.observations.image,
+            params={
+                "sensor_cfg": SceneEntityCfg("cam_front_right_narrow"),
+                "data_type": "rgb",
+                "normalize": False,
+            },
+        )
+        cam_back_narrow = ObservationTermCfg(
+            func=mdp.observations.image,
+            params={
+                "sensor_cfg": SceneEntityCfg("cam_back_narrow"),
+                "data_type": "rgb",
+                "normalize": False,
+            },
+        )
+        cam_back_left_narrow = ObservationTermCfg(
+            func=mdp.observations.image,
+            params={
+                "sensor_cfg": SceneEntityCfg("cam_back_left_narrow"),
+                "data_type": "rgb",
+                "normalize": False,
+            },
+        )
+        cam_back_right_narrow = ObservationTermCfg(
+            func=mdp.observations.image,
+            params={
+                "sensor_cfg": SceneEntityCfg("cam_back_right_narrow"),
+                "data_type": "rgb",
+                "normalize": False,
+            },
+        )
 
         def __post_init__(self) -> None:
             self.enable_corruption = False
@@ -72,6 +104,15 @@ class EventCfg:
     """Configuration for events."""
 
     reset_all = EventTermCfg(func=mdp.reset_scene_to_default, mode="reset")
+    sphere01_pos = EventTermCfg(
+        func=mdp.reset_root_state_with_random_orientation,
+        mode="reset",
+        params={
+            "asset_cfg": SceneEntityCfg("sphere_light", body_names=".*"),
+            "pose_range": {"x": (-1.0, 1.0), "y": (-1.0, 1.0), "z": (2.0, 2.0)},
+            "velocity_range": {},
+        },
+    )
     sphere01_restitution = EventTermCfg(
         func=mdp.randomize_rigid_body_material,
         mode="reset",
@@ -79,7 +120,7 @@ class EventCfg:
             "asset_cfg": SceneEntityCfg("sphere01", body_names=".*"),
             "static_friction_range": (0.8, 0.8),
             "dynamic_friction_range": (0.6, 0.6),
-            "restitution_range": (0.5, 1.0),
+            "restitution_range": (0.8, 1.0),
             "num_buckets": 32,
         },
     )
@@ -90,7 +131,7 @@ class EventCfg:
             "asset_cfg": SceneEntityCfg("sphere02", body_names=".*"),
             "static_friction_range": (0.5, 0.5),
             "dynamic_friction_range": (0.3, 0.3),
-            "restitution_range": (0.5, 1.0),
+            "restitution_range": (0.0, 0.3),
             "num_buckets": 32,
         },
     )
@@ -110,6 +151,65 @@ class EventCfg:
             "asset_cfg": SceneEntityCfg("sphere02", body_names=".*"),
             "pose_range": {"x": (0.03, 0.07), "y": (-0.03, -0.07), "z": (0.0, 0.05)},
             "velocity_range": {},
+        },
+    )
+    spheres_color = EventTermCfg(
+        func=mdp.randomize_color_per_instance,
+        mode="reset",
+        params={
+            "asset_cfgs": [
+                SceneEntityCfg("sphere01", body_names=".*"),
+                SceneEntityCfg("sphere02", body_names=".*"),
+            ],
+            "color_range": (0.0, 1.0),
+        },
+    )
+    wall_0_color = EventTermCfg(
+        func=mdp.randomize_color_per_instance,
+        mode="reset",
+        params={
+            "asset_cfgs": [SceneEntityCfg("wall_0", body_names=".*")],
+            "color_range": (0.0, 1.0),
+        },
+    )
+    wall_1_color = EventTermCfg(
+        func=mdp.randomize_color_per_instance,
+        mode="reset",
+        params={
+            "asset_cfgs": [SceneEntityCfg("wall_1", body_names=".*")],
+            "color_range": (0.0, 1.0),
+        },
+    )
+    wall_2_color = EventTermCfg(
+        func=mdp.randomize_color_per_instance,
+        mode="reset",
+        params={
+            "asset_cfgs": [SceneEntityCfg("wall_2", body_names=".*")],
+            "color_range": (0.0, 1.0),
+        },
+    )
+    wall_3_color = EventTermCfg(
+        func=mdp.randomize_color_per_instance,
+        mode="reset",
+        params={
+            "asset_cfgs": [SceneEntityCfg("wall_3", body_names=".*")],
+            "color_range": (0.0, 1.0),
+        },
+    )
+    table_top_color = EventTermCfg(
+        func=mdp.randomize_color_per_instance,
+        mode="reset",
+        params={
+            "asset_cfgs": [SceneEntityCfg("table_top", body_names=".*")],
+            "color_range": (0.0, 1.0),
+        },
+    )
+    floor_color = EventTermCfg(
+        func=mdp.randomize_color_per_instance,
+        mode="reset",
+        params={
+            "asset_cfgs": [SceneEntityCfg("floor", body_names=".*")],
+            "color_range": (0.0, 1.0),
         },
     )
 
@@ -139,6 +239,7 @@ class CurriculumCfg:
 @configclass
 class FrankadropSphereEnvCfg(ManagerBasedRLEnvCfg):
     scene = SphereMultiCamsFrankaRobotiqGripperTableSceneCfg()
+    scene.replicate_physics = False
     observations = ObservationCfg()
     actions = FrankaActionCfg()
     rewards = RewardsCfg()
