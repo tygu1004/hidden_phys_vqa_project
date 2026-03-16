@@ -130,7 +130,7 @@ class VQADataCollector:
                 else:
                     answer = "Right."
             elif "back" in video_key:
-                if restitutions[0] < restitutions[1]:
+                if restitutions[0] > restitutions[1]:
                     answer = "Left."
                 else:
                     answer = "Right."

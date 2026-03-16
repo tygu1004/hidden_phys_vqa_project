@@ -104,13 +104,12 @@ class EventCfg:
     """Configuration for events."""
 
     reset_all = EventTermCfg(func=mdp.reset_scene_to_default, mode="reset")
-    sphere01_pos = EventTermCfg(
-        func=mdp.reset_root_state_with_random_orientation,
+    light_pos = EventTermCfg(
+        func=mdp.randomize_light_position,
         mode="reset",
         params={
-            "asset_cfg": SceneEntityCfg("sphere_light", body_names=".*"),
-            "pose_range": {"x": (-1.0, 1.0), "y": (-1.0, 1.0), "z": (2.0, 2.0)},
-            "velocity_range": {},
+            "asset_cfg": SceneEntityCfg("sphere_light"),
+            "position_range": {"x": (-2.0, 2.0), "y": (-2.0, 2.0), "z": (2.0, 2.0)},
         },
     )
     sphere01_restitution = EventTermCfg(
@@ -118,9 +117,9 @@ class EventCfg:
         mode="reset",
         params={
             "asset_cfg": SceneEntityCfg("sphere01", body_names=".*"),
-            "static_friction_range": (0.8, 0.8),
-            "dynamic_friction_range": (0.6, 0.6),
-            "restitution_range": (0.8, 1.0),
+            "static_friction_range": (0.9, 0.9),
+            "dynamic_friction_range": (0.8, 0.8),
+            "restitution_range": (0.0, 1.0),
             "num_buckets": 32,
         },
     )
@@ -129,9 +128,9 @@ class EventCfg:
         mode="reset",
         params={
             "asset_cfg": SceneEntityCfg("sphere02", body_names=".*"),
-            "static_friction_range": (0.5, 0.5),
-            "dynamic_friction_range": (0.3, 0.3),
-            "restitution_range": (0.0, 0.3),
+            "static_friction_range": (0.9, 0.9),
+            "dynamic_friction_range": (0.8, 0.8),
+            "restitution_range": (0.0, 1.0),
             "num_buckets": 32,
         },
     )
@@ -140,7 +139,7 @@ class EventCfg:
         mode="reset",
         params={
             "asset_cfg": SceneEntityCfg("sphere01", body_names=".*"),
-            "pose_range": {"x": (0.03, 0.07), "y": (0.03, 0.07), "z": (0.0, 0.05)},
+            "pose_range": {"x": (0.03, 0.07), "y": (0.03, 0.07), "z": (0.0, 0.02)},
             "velocity_range": {},
         },
     )
@@ -149,7 +148,7 @@ class EventCfg:
         mode="reset",
         params={
             "asset_cfg": SceneEntityCfg("sphere02", body_names=".*"),
-            "pose_range": {"x": (0.03, 0.07), "y": (-0.03, -0.07), "z": (0.0, 0.05)},
+            "pose_range": {"x": (0.03, 0.07), "y": (-0.03, -0.07), "z": (0.0, 0.02)},
             "velocity_range": {},
         },
     )
