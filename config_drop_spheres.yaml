@@ -7,14 +7,14 @@ robot:
   noise_std: 0.00001
 
 env:
-  num_envs: 4
+  num_envs: 16
   fps: 15
   spacing: 15.0
   obj_names: ["sphere01", "sphere02"]
-  stabilize_steps: 10
-  hold_steps: 5
+  stabilize_steps: 20
+  hold_steps: 10
   eps: 0.015
-  episode_length_s: 10
+  episode_length_s: 12
 
 task:
   id: "Drop_Two_Spheres"
@@ -23,7 +23,7 @@ task:
 
 data:
   repo_id: "mlcf-robot/drop_spheres_vqa_dataset"
-  num_episodes: 8
+  num_episodes: 128
   video_keys:
     [
       "cam_front_narrow",

@@ -135,21 +135,19 @@ class EventCfg:
         },
     )
     sphere01_pos = EventTermCfg(
-        func=mdp.reset_root_state_with_random_orientation,
+        func=mdp.randomize_asset_position,
         mode="reset",
         params={
             "asset_cfg": SceneEntityCfg("sphere01", body_names=".*"),
             "pose_range": {"x": (0.03, 0.07), "y": (0.03, 0.07), "z": (0.0, 0.02)},
-            "velocity_range": {},
         },
     )
     sphere02_pos = EventTermCfg(
-        func=mdp.reset_root_state_with_random_orientation,
+        func=mdp.randomize_asset_position,
         mode="reset",
         params={
             "asset_cfg": SceneEntityCfg("sphere02", body_names=".*"),
             "pose_range": {"x": (0.03, 0.07), "y": (-0.03, -0.07), "z": (0.0, 0.02)},
-            "velocity_range": {},
         },
     )
     spheres_color = EventTermCfg(

@@ -10,20 +10,20 @@ env:
   num_envs: 2
   fps: 15
   spacing: 15.0
-  obj_names: ["cube01", "cube02"]
+  obj_names: ["cylinder01", "cylinder02"]
   stabilize_steps: 20
   hold_steps: 10
   eps: 0.001
   episode_length_s: 9
 
 task:
-  id: "Push_Two_Cubes"
+  id: "Push_Two_Cylinders"
   sequence: ["push"]
   physical_property: "mass"
 
 data:
-  repo_id: "mlcf-robot/push_cubes_vqa_dataset"
-  num_episodes: 2
+  repo_id: "mlcf-robot/push_cylinders_vqa_dataset"
+  num_episodes: 4
   video_keys:
     [
       "cam_front_top_narrow",

@@ -1,5 +1,6 @@
 import random
 
+import isaaclab.utils.math as math_utils
 import torch
 from isaaclab.envs import ManagerBasedEnv
 from isaaclab.managers import SceneEntityCfg
@@ -61,3 +62,26 @@ def randomize_light_position(
         rand_z = random.uniform(range_z[0], range_z[1])
 
         translate_op.Set(Gf.Vec3d(rand_x, rand_y, rand_z))
+
+
+def randomize_asset_position(
+    env: ManagerBasedEnv,
+    env_ids: torch.Tensor,
+    pose_range: dict[str, tuple[float, float]],
+    asset_cfg: SceneEntityCfg = SceneEntityCfg("robot"),
+):
+    asset = env.scene.rigid_objects[asset_cfg.name]
+    root_states = asset.data.default_root_state[env_ids].clone()
+
+    range_list = [pose_range.get(key, (0.0, 0.0)) for key in ["x", "y", "z"]]
+    ranges = torch.tensor(range_list, device=asset.device)
+    rand_samples = math_utils.sample_uniform(
+        ranges[:, 0], ranges[:, 1], (len(env_ids), 3), device=asset.device
+    )
+
+    positions = root_states[:, 0:3] + env.scene.env_origins[env_ids] + rand_samples
+    orientations = root_states[:, 3:7]
+
+    asset.write_root_pose_to_sim(
+        torch.cat([positions, orientations], dim=-1), env_ids=env_ids
+    )

@@ -95,14 +95,14 @@ class VQADataCollector:
             raise NotImplementedError("Currently only supports only 2 objects for VQA.")
 
         if self.physics_property_type == "mass":
-            question = f"Which {obj_type} is heavier, the left one or the right one?"
+            question = f"Looking from the front of the robot, which {obj_type} is heavier, the left one or the right one?"
             masses = []
             for obj_cfg in obj_cfgs:
                 obj = env.scene.rigid_objects[obj_cfg.name]
                 obj_masses = obj.root_physx_view.get_masses()[env_idx]
                 masses.append(obj_masses.item())
 
-            if masses[0] < masses[1]:
+            if masses[0] > masses[1]:
                 answer = "Left."
             else:
                 answer = "Right."
@@ -114,30 +114,17 @@ class VQADataCollector:
                 "values": masses,
             }
         elif self.physics_property_type == "restitution":
-            question = (
-                f"Which {obj_type} is more elastic, the left one or the right one?"
-            )
+            question = f"Looking from the front of the robot, which {obj_type} looks more elastic, the left or the right?"
             restitutions = []
             for obj_cfg in obj_cfgs:
                 obj = env.scene.rigid_objects[obj_cfg.name]
                 meterial_properties = obj.root_physx_view.get_material_properties()
                 restitution = meterial_properties[env_idx, :, 2]
                 restitutions.append(restitution.item())
-
-            if "front" in video_key:
-                if restitutions[0] < restitutions[1]:
-                    answer = "Left."
-                else:
-                    answer = "Right."
-            elif "back" in video_key:
-                if restitutions[0] > restitutions[1]:
-                    answer = "Left."
-                else:
-                    answer = "Right."
+            if restitutions[0] > restitutions[1]:
+                answer = "Left."
             else:
-                raise ValueError(
-                    f"video_key should contain 'front' or 'back', but got: {video_key}"
-                )
+                answer = "Right."
 
             return {
                 "file_name": video_path,

@@ -98,7 +98,7 @@ class TableSceneCfg(InteractiveSceneCfg):
     table_top = RigidObjectCfg(
         prim_path="{ENV_REGEX_NS}/TableTop",
         spawn=sim_utils.CuboidCfg(
-            size=(0.7, 1.2, 0.02),
+            size=(1.0, 1.2, 0.02),
             rigid_props=sim_utils.RigidBodyPropertiesCfg(),
             physics_material=sim_utils.RigidBodyMaterialCfg(
                 static_friction=0.3,
@@ -112,7 +112,7 @@ class TableSceneCfg(InteractiveSceneCfg):
                 diffuse_color=(0.18, 0.18, 0.18)
             ),
         ),
-        init_state=RigidObjectCfg.InitialStateCfg(pos=(0.5, 0.0, 0.0)),
+        init_state=RigidObjectCfg.InitialStateCfg(pos=(0.6, 0.0, 0.0)),
     )
     table_leg_0 = AssetBaseCfg(
         prim_path="{ENV_REGEX_NS}/TableLeg0",
@@ -130,7 +130,7 @@ class TableSceneCfg(InteractiveSceneCfg):
             height=0.5,
             collision_props=sim_utils.CollisionPropertiesCfg(),
         ),
-        init_state=AssetBaseCfg.InitialStateCfg(pos=(0.8, 0.5, -0.26)),
+        init_state=AssetBaseCfg.InitialStateCfg(pos=(1.0, 0.5, -0.26)),
     )
     table_leg_2 = AssetBaseCfg(
         prim_path="{ENV_REGEX_NS}/TableLeg2",
@@ -148,7 +148,7 @@ class TableSceneCfg(InteractiveSceneCfg):
             height=0.5,
             collision_props=sim_utils.CollisionPropertiesCfg(),
         ),
-        init_state=AssetBaseCfg.InitialStateCfg(pos=(0.8, -0.5, -0.26)),
+        init_state=AssetBaseCfg.InitialStateCfg(pos=(1.0, -0.5, -0.26)),
     )
 
 
@@ -197,7 +197,7 @@ class FrankaRobotiqGripperTableSceneCfg(TableSceneCfg):
 
 
 @configclass
-class MultiCamsFrankaRobotiqGripperTableSceneCfg(FrankaRobotiqGripperTableSceneCfg):
+class CamsForDropFrankaRobotiqGripperTableSceneCfg(FrankaRobotiqGripperTableSceneCfg):
     cam_front_narrow = TiledCameraCfg(
         prim_path="{ENV_REGEX_NS}/cam_front_narrow",
         width=640,
@@ -306,8 +306,117 @@ class MultiCamsFrankaRobotiqGripperTableSceneCfg(FrankaRobotiqGripperTableSceneC
 
 
 @configclass
+class CamsForPushFrankaRobotiqGripperTableSceneCfg(FrankaRobotiqGripperTableSceneCfg):
+    cam_front_top_narrow = TiledCameraCfg(
+        prim_path="{ENV_REGEX_NS}/cam_front_top_narrow",
+        width=640,
+        height=480,
+        data_types=["rgb"],
+        spawn=sim_utils.PinholeCameraCfg(
+            focal_length=24.0,
+            focus_distance=2.0,
+        ),
+        offset=TiledCameraCfg.OffsetCfg(
+            pos=(1.0, 0.0, 3.0),
+            rot=(0.7041, 0.0646, 0.0646, 0.7041),
+            convention="opengl",
+        ),
+    )
+    cam_back_top_narrow = TiledCameraCfg(
+        prim_path="{ENV_REGEX_NS}/cam_back_top_narrow",
+        width=640,
+        height=480,
+        data_types=["rgb"],
+        spawn=sim_utils.PinholeCameraCfg(
+            focal_length=24.0,
+            focus_distance=2.0,
+        ),
+        offset=TiledCameraCfg.OffsetCfg(
+            pos=(1.0, 0.0, 3.0),
+            rot=(-0.7041, 0.0646, -0.0646, 0.7041),
+            convention="opengl",
+        ),
+    )
+    cam_back_wide = TiledCameraCfg(
+        prim_path="{ENV_REGEX_NS}/cam_back_wide",
+        width=640,
+        height=480,
+        data_types=["rgb"],
+        spawn=sim_utils.PinholeCameraCfg(
+            focal_length=12.0,
+            focus_distance=1.0,
+        ),
+        offset=TiledCameraCfg.OffsetCfg(
+            pos=(0.05, 0.0, 0.3),
+            rot=(0.5, 0.5, -0.5, -0.5),
+            convention="opengl",
+        ),
+    )
+    cam_back_left_wide = TiledCameraCfg(
+        prim_path="{ENV_REGEX_NS}/cam_back_left_wide",
+        width=640,
+        height=480,
+        data_types=["rgb"],
+        spawn=sim_utils.PinholeCameraCfg(
+            focal_length=12.0,
+            focus_distance=1.0,
+        ),
+        offset=TiledCameraCfg.OffsetCfg(
+            pos=(0.05, 0.4, 0.3),
+            rot=(-0.2897, -0.2897, 0.6451, 0.6451),
+            convention="opengl",
+        ),
+    )
+    cam_back_right_wide = TiledCameraCfg(
+        prim_path="{ENV_REGEX_NS}/cam_back_right_wide",
+        width=640,
+        height=480,
+        data_types=["rgb"],
+        spawn=sim_utils.PinholeCameraCfg(
+            focal_length=12.0,
+            focus_distance=1.0,
+        ),
+        offset=TiledCameraCfg.OffsetCfg(
+            pos=(0.05, -0.4, 0.3),
+            rot=(0.6451, 0.6451, -0.2897, -0.2897),
+            convention="opengl",
+        ),
+    )
+    cam_front_right_narrow = TiledCameraCfg(
+        prim_path="{ENV_REGEX_NS}/cam_front_right_narrow",
+        width=640,
+        height=480,
+        data_types=["rgb"],
+        spawn=sim_utils.PinholeCameraCfg(
+            focal_length=24.0,
+            focus_distance=2.0,
+        ),
+        offset=TiledCameraCfg.OffsetCfg(
+            pos=(2.0, 2.0, 0.3),
+            rot=(0.2236, 0.2236, 0.6708, 0.6708),
+            convention="opengl",
+        ),
+    )
+    cam_front_left_narrow = TiledCameraCfg(
+        prim_path="{ENV_REGEX_NS}/cam_front_left_narrow",
+        width=640,
+        height=480,
+        data_types=["rgb"],
+        spawn=sim_utils.PinholeCameraCfg(
+            focal_length=24.0,
+            focus_distance=2.0,
+        ),
+        offset=TiledCameraCfg.OffsetCfg(
+            pos=(2.0, -2.0, 0.3),
+            rot=(0.6708, 0.6708, 0.2236, 0.2236),
+            convention="opengl",
+        ),
+    )
+
+
+@configclass
 class CubeMultiCamsFrankaRobotiqGripperTableSceneCfg(
-    MultiCamsFrankaRobotiqGripperTableSceneCfg
+    CamsForPushFrankaRobotiqGripperTableSceneCfg
 ):
     cube01 = RigidObjectCfg(
         prim_path="{ENV_REGEX_NS}/cube01",
@@ -320,7 +429,8 @@ class CubeMultiCamsFrankaRobotiqGripperTableSceneCfg(
             physics_material=sim_utils.RigidBodyMaterialCfg(
                 static_friction=0.3,
                 dynamic_friction=0.2,
-                restitution=0.5,
+                restitution=1.0,
+                restitution_combine_mode="max",
                 friction_combine_mode="min",
             ),
             visual_material=sim_utils.PreviewSurfaceCfg(
@@ -341,7 +451,8 @@ class CubeMultiCamsFrankaRobotiqGripperTableSceneCfg(
             physics_material=sim_utils.RigidBodyMaterialCfg(
                 static_friction=0.3,
                 dynamic_friction=0.2,
-                restitution=0.5,
+                restitution=1.0,
+                restitution_combine_mode="max",
                 friction_combine_mode="min",
             ),
             visual_material=sim_utils.PreviewSurfaceCfg(
@@ -355,7 +466,7 @@ class CubeMultiCamsFrankaRobotiqGripperTableSceneCfg(
 
 @configclass
 class SphereMultiCamsFrankaRobotiqGripperTableSceneCfg(
-    MultiCamsFrankaRobotiqGripperTableSceneCfg
+    CamsForDropFrankaRobotiqGripperTableSceneCfg
 ):
     sphere01 = RigidObjectCfg(
         prim_path="{ENV_REGEX_NS}/sphere01",
@@ -363,7 +474,9 @@ class SphereMultiCamsFrankaRobotiqGripperTableSceneCfg(
             radius=0.025,
             mass_props=sim_utils.MassPropertiesCfg(mass=0.1),
             rigid_props=sim_utils.RigidBodyPropertiesCfg(
-                disable_gravity=False, linear_damping=0.0, angular_damping=0.0
+                disable_gravity=False,
+                linear_damping=0.0,
+                angular_damping=0.0,
             ),
             physics_material=sim_utils.RigidBodyMaterialCfg(
                 static_friction=0.9,
@@ -385,7 +498,9 @@ class SphereMultiCamsFrankaRobotiqGripperTableSceneCfg(
             radius=0.025,
             mass_props=sim_utils.MassPropertiesCfg(mass=0.1),
             rigid_props=sim_utils.RigidBodyPropertiesCfg(
-                disable_gravity=False, linear_damping=0.0, angular_damping=0.0
+                disable_gravity=False,
+                linear_damping=0.0,
+                angular_damping=0.0,
             ),
             physics_material=sim_utils.RigidBodyMaterialCfg(
                 static_friction=0.9,
@@ -393,6 +508,58 @@ class SphereMultiCamsFrankaRobotiqGripperTableSceneCfg(
                 restitution=1.0,
                 restitution_combine_mode="max",
                 friction_combine_mode="max",
+            ),
+            visual_material=sim_utils.PreviewSurfaceCfg(
+                diffuse_color=(0.5, 0.3, 0.0), roughness=0.9
+            ),
+            collision_props=sim_utils.CollisionPropertiesCfg(),
+        ),
+        init_state=RigidObjectCfg.InitialStateCfg(pos=(0.4, -0.2, 0.05)),
+    )
+
+
+@configclass
+class CylinderMultiCamsFrankaRobotiqGripperTableSceneCfg(
+    CamsForPushFrankaRobotiqGripperTableSceneCfg
+):
+    cylinder01 = RigidObjectCfg(
+        prim_path="{ENV_REGEX_NS}/cylider01",
+        spawn=sim_utils.CylinderCfg(
+            radius=0.025,
+            height=0.05,
+            mass_props=sim_utils.MassPropertiesCfg(mass=0.1),
+            rigid_props=sim_utils.RigidBodyPropertiesCfg(
+                disable_gravity=False, linear_damping=0.0, angular_damping=0.0
+            ),
+            physics_material=sim_utils.RigidBodyMaterialCfg(
+                static_friction=0.3,
+                dynamic_friction=0.2,
+                restitution=1.0,
+                restitution_combine_mode="max",
+                friction_combine_mode="min",
+            ),
+            visual_material=sim_utils.PreviewSurfaceCfg(
+                diffuse_color=(0.5, 0.3, 0.0), roughness=0.9
+            ),
+            collision_props=sim_utils.CollisionPropertiesCfg(),
+        ),
+        init_state=RigidObjectCfg.InitialStateCfg(pos=(0.4, 0.2, 0.05)),
+    )
+    cylinder02 = RigidObjectCfg(
+        prim_path="{ENV_REGEX_NS}/cylider02",
+        spawn=sim_utils.CylinderCfg(
+            radius=0.025,
+            height=0.05,
+            mass_props=sim_utils.MassPropertiesCfg(mass=0.1),
+            rigid_props=sim_utils.RigidBodyPropertiesCfg(
+                disable_gravity=False, linear_damping=0.0, angular_damping=0.0
+            ),
+            physics_material=sim_utils.RigidBodyMaterialCfg(
+                static_friction=0.3,
+                dynamic_friction=0.2,
+                restitution=1.0,
+                restitution_combine_mode="max",
+                friction_combine_mode="min",
             ),
             visual_material=sim_utils.PreviewSurfaceCfg(
                 diffuse_color=(0.5, 0.3, 0.0), roughness=0.9
