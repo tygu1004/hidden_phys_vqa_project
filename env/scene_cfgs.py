@@ -362,8 +362,8 @@ class CamsForPushFrankaRobotiqGripperTableSceneCfg(FrankaRobotiqGripperTableScen
             focus_distance=1.0,
         ),
         offset=TiledCameraCfg.OffsetCfg(
-            pos=(0.05, 0.4, 0.3),
-            rot=(-0.2897, -0.2897, 0.6451, 0.6451),
+            pos=(0.05, 1.0, 0.5),
+            rot=(-0.1612, -0.1344, 0.6263, 0.7508),
             convention="opengl",
         ),
     )
@@ -377,8 +377,8 @@ class CamsForPushFrankaRobotiqGripperTableSceneCfg(FrankaRobotiqGripperTableScen
             focus_distance=1.0,
         ),
         offset=TiledCameraCfg.OffsetCfg(
-            pos=(0.05, -0.4, 0.3),
-            rot=(0.6451, 0.6451, -0.2897, -0.2897),
+            pos=(0.05, -1.0, 0.5),
+            rot=(0.7508, 0.6263, -0.1344, -0.1612),
             convention="opengl",
         ),
     )
@@ -392,8 +392,8 @@ class CamsForPushFrankaRobotiqGripperTableSceneCfg(FrankaRobotiqGripperTableScen
             focus_distance=2.0,
         ),
         offset=TiledCameraCfg.OffsetCfg(
-            pos=(2.0, 2.0, 0.3),
-            rot=(0.2236, 0.2236, 0.6708, 0.6708),
+            pos=(2.0, 2.0, 0.5),
+            rot=(0.2324, 0.2145, 0.6435, 0.6971),
             convention="opengl",
         ),
     )
@@ -407,8 +407,8 @@ class CamsForPushFrankaRobotiqGripperTableSceneCfg(FrankaRobotiqGripperTableScen
             focus_distance=2.0,
         ),
         offset=TiledCameraCfg.OffsetCfg(
-            pos=(2.0, -2.0, 0.3),
-            rot=(0.6708, 0.6708, 0.2236, 0.2236),
+            pos=(2.0, -2.0, 0.5),
+            rot=(0.6971, 0.6435, 0.2145, 0.2324),
             convention="opengl",
         ),
     )
@@ -438,7 +438,7 @@ class CubeMultiCamsFrankaRobotiqGripperTableSceneCfg(
             ),
             collision_props=sim_utils.CollisionPropertiesCfg(),
         ),
-        init_state=RigidObjectCfg.InitialStateCfg(pos=(0.4, 0.2, 0.05)),
+        init_state=RigidObjectCfg.InitialStateCfg(pos=(0.5, 0.2, 0.05)),
     )
     cube02 = RigidObjectCfg(
         prim_path="{ENV_REGEX_NS}/cube02",
@@ -460,7 +460,7 @@ class CubeMultiCamsFrankaRobotiqGripperTableSceneCfg(
             ),
             collision_props=sim_utils.CollisionPropertiesCfg(),
         ),
-        init_state=RigidObjectCfg.InitialStateCfg(pos=(0.4, -0.2, 0.05)),
+        init_state=RigidObjectCfg.InitialStateCfg(pos=(0.5, -0.2, 0.05)),
     )
 
 
@@ -490,7 +490,7 @@ class SphereMultiCamsFrankaRobotiqGripperTableSceneCfg(
             ),
             collision_props=sim_utils.CollisionPropertiesCfg(),
         ),
-        init_state=RigidObjectCfg.InitialStateCfg(pos=(0.4, 0.2, 0.05)),
+        init_state=RigidObjectCfg.InitialStateCfg(pos=(0.5, 0.2, 0.05)),
     )
     sphere02 = RigidObjectCfg(
         prim_path="{ENV_REGEX_NS}/sphere02",
@@ -514,7 +514,7 @@ class SphereMultiCamsFrankaRobotiqGripperTableSceneCfg(
             ),
             collision_props=sim_utils.CollisionPropertiesCfg(),
         ),
-        init_state=RigidObjectCfg.InitialStateCfg(pos=(0.4, -0.2, 0.05)),
+        init_state=RigidObjectCfg.InitialStateCfg(pos=(0.5, -0.2, 0.05)),
     )
 
 
@@ -543,7 +543,7 @@ class CylinderMultiCamsFrankaRobotiqGripperTableSceneCfg(
             ),
             collision_props=sim_utils.CollisionPropertiesCfg(),
         ),
-        init_state=RigidObjectCfg.InitialStateCfg(pos=(0.4, 0.2, 0.05)),
+        init_state=RigidObjectCfg.InitialStateCfg(pos=(0.5, 0.2, 0.05)),
     )
     cylinder02 = RigidObjectCfg(
         prim_path="{ENV_REGEX_NS}/cylider02",
@@ -566,5 +566,5 @@ class CylinderMultiCamsFrankaRobotiqGripperTableSceneCfg(
             ),
             collision_props=sim_utils.CollisionPropertiesCfg(),
         ),
-        init_state=RigidObjectCfg.InitialStateCfg(pos=(0.4, -0.2, 0.05)),
+        init_state=RigidObjectCfg.InitialStateCfg(pos=(0.5, -0.2, 0.05)),
     )

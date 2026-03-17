@@ -3,17 +3,17 @@ robot:
   tip_offset: [0.0, 0.0, 0.15]
   ik_params:
     lambda_val: 0.01
-  step_size: 0.1
+  step_size: 0.5
   noise_std: 0.00001
 
 env:
-  num_envs: 2
+  num_envs: 16
   fps: 15
   spacing: 15.0
   obj_names: ["cube01", "cube02"]
   stabilize_steps: 20
   hold_steps: 10
-  eps: 0.001
+  eps: 0.0015
   episode_length_s: 9
 
 task:
@@ -22,8 +22,8 @@ task:
   physical_property: "mass"
 
 data:
-  repo_id: "mlcf-robot/push_cubes_vqa_dataset"
-  num_episodes: 2
+  repo_id: "mlcf-robot/push_cubes_vqa_dataset_l"
+  num_episodes: 64
   video_keys:
     [
       "cam_front_top_narrow",

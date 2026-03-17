@@ -109,7 +109,7 @@ class EventCfg:
         mode="reset",
         params={
             "asset_cfg": SceneEntityCfg("sphere_light"),
-            "position_range": {"x": (-2.0, 2.0), "y": (-2.0, 2.0), "z": (2.0, 2.0)},
+            "pose_range": {"x": (-1.5, 1.5), "y": (-1.5, 1.5), "z": (2.0, 2.5)},
         },
     )
     sphere01_restitution = EventTermCfg(
@@ -139,7 +139,11 @@ class EventCfg:
         mode="reset",
         params={
             "asset_cfg": SceneEntityCfg("sphere01", body_names=".*"),
-            "pose_range": {"x": (0.03, 0.07), "y": (0.03, 0.07), "z": (0.0, 0.02)},
+            "pose_delta_range": {
+                "x": (-0.01, 0.01),
+                "y": (-0.01, 0.01),
+                "z": (0.0, 0.0),
+            },
         },
     )
     sphere02_pos = EventTermCfg(
@@ -147,7 +151,11 @@ class EventCfg:
         mode="reset",
         params={
             "asset_cfg": SceneEntityCfg("sphere02", body_names=".*"),
-            "pose_range": {"x": (0.03, 0.07), "y": (-0.03, -0.07), "z": (0.0, 0.02)},
+            "pose_delta_range": {
+                "x": (-0.01, 0.01),
+                "y": (-0.01, 0.01),
+                "z": (0.0, 0.0),
+            },
         },
     )
     spheres_color = EventTermCfg(

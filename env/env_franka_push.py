@@ -112,7 +112,7 @@ class BaseEventCfg:
         mode="reset",
         params={
             "asset_cfg": SceneEntityCfg("sphere_light"),
-            "position_range": {"x": (-2.0, 2.0), "y": (-2.0, 2.0), "z": (2.0, 2.0)},
+            "pose_range": {"x": (-1.5, 1.5), "y": (-1.5, 1.5), "z": (2.0, 2.5)},
         },
     )
 
@@ -191,7 +191,11 @@ class CubeEventCfg(BaseEventCfg):
         mode="reset",
         params={
             "asset_cfg": SceneEntityCfg("cube01", body_names=".*"),
-            "pose_range": {"x": (0.04, 0.06), "y": (0.04, 0.06), "z": (0.0, 0.05)},
+            "pose_delta_range": {
+                "x": (-0.01, 0.01),
+                "y": (-0.01, 0.01),
+                "z": (0.0, 0.0),
+            },
         },
     )
     cube02_position = EventTermCfg(
@@ -199,7 +203,11 @@ class CubeEventCfg(BaseEventCfg):
         mode="reset",
         params={
             "asset_cfg": SceneEntityCfg("cube02", body_names=".*"),
-            "pose_range": {"x": (0.04, 0.07), "y": (-0.04, -0.06), "z": (0.0, 0.05)},
+            "pose_delta_range": {
+                "x": (-0.01, 0.01),
+                "y": (-0.01, -0.01),
+                "z": (0.0, 0.0),
+            },
         },
     )
     cubes_color = EventTermCfg(
@@ -240,7 +248,7 @@ class CylinderEventCfg(BaseEventCfg):
         mode="reset",
         params={
             "asset_cfg": SceneEntityCfg("cylinder01", body_names=".*"),
-            "pose_range": {"x": (0.04, 0.06), "y": (0.04, 0.06), "z": (0.0, 0.05)},
+            "pose_range": {"x": (-0.01, 0.01), "y": (-0.01, 0.01), "z": (0.0, 0.0)},
         },
     )
     cylinder02_position = EventTermCfg(
@@ -248,7 +256,7 @@ class CylinderEventCfg(BaseEventCfg):
         mode="reset",
         params={
             "asset_cfg": SceneEntityCfg("cylinder02", body_names=".*"),
-            "pose_range": {"x": (0.04, 0.07), "y": (-0.04, -0.06), "z": (0.0, 0.05)},
+            "pose_range": {"x": (-0.01, 0.01), "y": (-0.01, 0.01), "z": (0.0, 0.0)},
         },
     )
     cylinders_color = EventTermCfg(
