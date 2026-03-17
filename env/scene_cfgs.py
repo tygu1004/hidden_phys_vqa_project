@@ -103,7 +103,7 @@ class TableSceneCfg(InteractiveSceneCfg):
             physics_material=sim_utils.RigidBodyMaterialCfg(
                 static_friction=0.3,
                 dynamic_friction=0.2,
-                restitution=0.3,
+                restitution=0.0,
                 restitution_combine_mode="max",
                 friction_combine_mode="min",
             ),
