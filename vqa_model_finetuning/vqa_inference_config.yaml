@@ -1,0 +1,22 @@
+model_type: "internvl"                   # "qwen", "internvl", "cosmos" 중 택 1
+model_name: "OpenGVLab/InternVL3_5-8B-HF" # (선택) 빈 문자열이면 기본값 사용
+
+# model_type: "qwen"
+# model_name: "Qwen/Qwen3.5-9B"
+
+# model_type: "cosmos"
+# model_name: "nvidia/Cosmos-Reason2-8B"
+
+# meta_data_path: "mlcf-robot/drop_spheres_vqa_dataset_test/metadata_rev.jsonl"
+# meta_data_path: "mlcf-robot/push_cubes_vqa_dataset_l_test/metadata_rev.jsonl"
+meta_data_path: "mlcf-robot/push_cubes_vqa_dataset_r_test/metadata_rev.jsonl"
+# output_path: "outputs/intenvl_drop_spheres_rev_results.jsonl"
+# output_path: "outputs/intenvl_push_cubes_l_rev_results.jsonl"
+output_path: "outputs/intenvl_push_cubes_r_rev_results.jsonl"
+
+batch_size: 16
+
+finetuned: false
+# peft_id: "tygu1004/intenvl3.5_finetuing_0323"
+# peft_id: "tygu1004/result" # qwen
+# peft_id: "tygu1004/cosmos_result_2" # cosmos

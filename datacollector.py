@@ -95,7 +95,7 @@ class VQADataCollector:
             raise NotImplementedError("Currently only supports only 2 objects for VQA.")
 
         if self.physics_property_type == "mass":
-            question = f"Looking from the front of the robot, which {obj_type} is heavier, the left one or the right one?"
+            question = f"From the perspective of the robot arm facing forward, which {obj_type} is heavier, the left one or the right one?"
             masses = []
             for obj_cfg in obj_cfgs:
                 obj = env.scene.rigid_objects[obj_cfg.name]
@@ -114,7 +114,7 @@ class VQADataCollector:
                 "values": masses,
             }
         elif self.physics_property_type == "restitution":
-            question = f"Looking from the front of the robot, which {obj_type} looks more elastic, the left or the right?"
+            question = f"From the perspective of the robot arm facing forward, which {obj_type} looks more elastic, the left or the right?"
             restitutions = []
             for obj_cfg in obj_cfgs:
                 obj = env.scene.rigid_objects[obj_cfg.name]
