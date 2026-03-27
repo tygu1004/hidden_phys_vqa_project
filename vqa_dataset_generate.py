@@ -122,6 +122,9 @@ def main(
         # --- Data Collection ---
         data_collecting_envs_idx = (~is_stabilizing).nonzero().flatten()
         dataset_manager.add_frame(observation=obs, env_indices=data_collecting_envs_idx)
+        dataset_manager.add_info(
+            env=env, env_indices=data_collecting_envs_idx, obj_cfgs=obj_configs
+        )
 
         obs, _, _, trunc, _ = env.step(desired_joint_pos)
 
@@ -132,9 +135,7 @@ def main(
         if trunc.any():
             trunc_env_idx = trunc.nonzero().flatten().tolist()
             if trunc_env_idx:
-                dataset_manager.save_episode(
-                    env=env, env_indices=trunc_env_idx, obj_cfgs=obj_configs
-                )
+                dataset_manager.save_episode(env_indices=trunc_env_idx)
                 total_collected_episodes += len(trunc_env_idx)
                 logging.info(
                     f"[Success] Saved {len(trunc_env_idx)} episodes. Total: {total_collected_episodes} / {data_config.num_episodes}"

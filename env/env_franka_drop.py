@@ -112,26 +112,16 @@ class EventCfg:
             "pose_range": {"x": (-1.5, 1.5), "y": (-1.5, 1.5), "z": (2.0, 2.5)},
         },
     )
-    sphere01_restitution = EventTermCfg(
-        func=mdp.randomize_rigid_body_material,
+    spheres_restitution = EventTermCfg(
+        func=mdp.randomize_restitution_with_min_gap,
         mode="reset",
         params={
-            "asset_cfg": SceneEntityCfg("sphere01", body_names=".*"),
-            "static_friction_range": (0.9, 0.9),
-            "dynamic_friction_range": (0.8, 0.8),
+            "asset_cfgs": [
+                SceneEntityCfg("sphere01", body_names=".*"),
+                SceneEntityCfg("sphere02", body_names=".*"),
+            ],
             "restitution_range": (0.0, 1.0),
-            "num_buckets": 32,
-        },
-    )
-    sphere02_restitution = EventTermCfg(
-        func=mdp.randomize_rigid_body_material,
-        mode="reset",
-        params={
-            "asset_cfg": SceneEntityCfg("sphere02", body_names=".*"),
-            "static_friction_range": (0.9, 0.9),
-            "dynamic_friction_range": (0.8, 0.8),
-            "restitution_range": (0.0, 1.0),
-            "num_buckets": 32,
+            "min_gap": 0.2,
         },
     )
     sphere01_pos = EventTermCfg(

@@ -29,7 +29,8 @@ class VQADataCollector:
         self.metadata_path = os.path.join(self.repo_path, "metadata.jsonl")
         os.makedirs(self.videos_dir, exist_ok=True)
 
-        self.buffer = [[] for _ in range(num_envs)]
+        self.frame_buffer = [[] for _ in range(num_envs)]
+        self.info_buffer = [{} for _ in range(num_envs)]
         self.episode_counter = 0
 
     def add_frame(self, observation: dict, env_indices: torch.Tensor):
@@ -37,16 +38,42 @@ class VQADataCollector:
             frame = {}
             for video_key in self.video_keys:
                 frame[video_key] = observation["cams"][video_key][i]
-            self.buffer[i].append(frame)
+            self.frame_buffer[i].append(frame)
+
+    def add_info(
+        self,
+        env: ManagerBasedRLEnv,
+        env_indices: torch.Tensor,
+        obj_cfgs: list[SceneEntityCfg],
+    ):
+        for i in env_indices:
+            if not self.info_buffer[i]:
+                if self.physics_property_type == "mass":
+                    for obj_cfg in obj_cfgs:
+                        obj = env.scene.rigid_objects[obj_cfg.name]
+                        obj_masses = obj.root_physx_view.get_masses()[i]
+                        self.info_buffer[i][obj_cfg.name] = obj_masses.item()
+
+                elif self.physics_property_type == "restitution":
+                    for obj_cfg in obj_cfgs:
+                        obj = env.scene.rigid_objects[obj_cfg.name]
+                        meterial_properties = (
+                            obj.root_physx_view.get_material_properties()
+                        )
+                        restitution = meterial_properties[i, :, 2]
+                        self.info_buffer[i][obj_cfg.name] = restitution.item()
+
+                else:
+                    raise ValueError(
+                        f"Unsupported physics property type: {self.physics_property_type}"
+                    )
 
     def save_episode(
         self,
-        env: ManagerBasedRLEnv,
         env_indices: list[int],
-        obj_cfgs: list[SceneEntityCfg],
     ):
         for env_idx in env_indices:
-            if not self.buffer[env_idx]:
+            if not self.frame_buffer[env_idx]:
                 logging.info(
                     f"No frames collected for env index {env_idx}, skipping save."
                 )
@@ -54,7 +81,7 @@ class VQADataCollector:
 
             for video_key in self.video_keys:
                 video_tensor = torch.stack(
-                    [frame[video_key] for frame in self.buffer[env_idx]]
+                    [frame[video_key] for frame in self.frame_buffer[env_idx]]
                 )
                 video_tensor = video_tensor.to(torch.uint8)
                 video_filename = f"episode_{self.episode_counter}_{video_key}.mp4"
@@ -69,12 +96,7 @@ class VQADataCollector:
                 )
                 logging.info(f"Saved video for env index {env_idx} at {video_path}")
                 metadata = self._make_metadata_per_episode(
-                    video_key,
-                    video_path,
-                    env,
-                    obj_cfgs,
-                    self.physics_property_type,
-                    env_idx,
+                    video_path=video_path, env_idx=env_idx
                 )
                 with open(self.metadata_path, "a", encoding="utf-8") as f:
                     f.write(json.dumps(metadata, ensure_ascii=False) + "\n")
@@ -84,59 +106,34 @@ class VQADataCollector:
 
     def _make_metadata_per_episode(
         self,
-        video_key: str,
         video_path: str,
-        env: ManagerBasedRLEnv,
-        obj_cfgs: list[SceneEntityCfg],
-        obj_type: str,
         env_idx: int,
     ) -> str:
-        if len(obj_cfgs) > 2:
-            raise NotImplementedError("Currently only supports only 2 objects for VQA.")
+        bigger_key = max(self.info_buffer[env_idx], key=self.info_buffer[env_idx].get)
+        if "01" in bigger_key:
+            answer = "Left."
+        else:
+            answer = "Right."
 
         if self.physics_property_type == "mass":
-            question = f"From the perspective of the robot arm facing forward, which {obj_type} is heavier, the left one or the right one?"
-            masses = []
-            for obj_cfg in obj_cfgs:
-                obj = env.scene.rigid_objects[obj_cfg.name]
-                obj_masses = obj.root_physx_view.get_masses()[env_idx]
-                masses.append(obj_masses.item())
+            question = f"Looking from the front of the robot, which cube looks heavier, the left one or the right one?"
 
-            if masses[0] > masses[1]:
-                answer = "Left."
-            else:
-                answer = "Right."
-
-            return {
-                "file_name": video_path,
-                "question": question,
-                "answer": answer,
-                "values": masses,
-            }
         elif self.physics_property_type == "restitution":
-            question = f"From the perspective of the robot arm facing forward, which {obj_type} looks more elastic, the left or the right?"
-            restitutions = []
-            for obj_cfg in obj_cfgs:
-                obj = env.scene.rigid_objects[obj_cfg.name]
-                meterial_properties = obj.root_physx_view.get_material_properties()
-                restitution = meterial_properties[env_idx, :, 2]
-                restitutions.append(restitution.item())
-            if restitutions[0] > restitutions[1]:
-                answer = "Left."
-            else:
-                answer = "Right."
+            question = f"Looking from the front of the robot, which sphere looks more elastic, the left or the right?"
 
-            return {
-                "file_name": video_path,
-                "question": question,
-                "answer": answer,
-                "values": restitutions,
-            }
         else:
             raise ValueError(
                 f"Unsupported physics property type: {self.physics_property_type}"
             )
 
+        return {
+            "file_name": video_path,
+            "question": question,
+            "answer": answer,
+            "values": self.info_buffer[env_idx],
+        }
+
     def clear_buffer(self, env_indices: list[int]):
         for i in env_indices:
-            self.buffer[i] = []
+            self.frame_buffer[i] = []
+            self.info_buffer[i] = {}
