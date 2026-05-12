@@ -141,8 +141,8 @@ model = get_peft_model(model, lora_config)
 
 cfg = TrainingArguments(
     output_dir="./cosmos_reason2_finetune_0325",
-    per_device_train_batch_size=2,
-    per_device_eval_batch_size=2,
+    per_device_train_batch_size=4,
+    per_device_eval_batch_size=4,
     eval_steps=0.1,
     num_train_epochs=3,
     ddp_find_unused_parameters=False,
