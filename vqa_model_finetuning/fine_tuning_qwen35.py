@@ -140,8 +140,8 @@ model.enable_input_require_grads()
 
 cfg = TrainingArguments(
     output_dir="./qwen3.5_finetune_0325",
-    per_device_train_batch_size=2,
-    per_device_eval_batch_size=2,
+    per_device_train_batch_size=4,
+    per_device_eval_batch_size=4,
     do_eval=True,
     eval_steps=0.1,
     num_train_epochs=3,
